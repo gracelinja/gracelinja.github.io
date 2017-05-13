@@ -1,0 +1,97 @@
+
+
+<html>
+<head>
+<title>Film Characters</title>
+
+</head>
+<body>
+
+<h2 align="center"> Male/Female Ranked </h2>
+
+<div id="topBar" style="height:10%; width:100%; float:top"> 
+
+<table align="center">
+<tr>
+  <th></th>
+  <th>Agreeableness</th>
+  <th>Openness</th>
+  <th>Tentative</th>
+  <th>Extraversion</th>
+  <th>Neuroticism</th>
+</tr>
+<tr>
+  <th>Female</th>
+    <td><a href ="#" onclick="load_female_agree_distr()"> F Agree Ranked </a></td>
+    <td><a href ="#" onclick="load_female_openness_distr()"> F Openness Ranked </a></td>
+    <td><a href ="#" onclick="load_female_tentative_distr()"> F Tentative Ranked </a></td>
+    <td><a href ="#" onclick="load_female_extraversion_distr()"> F Extraversion Ranked </a></td>
+    <td><a href ="#" onclick="load_female_neurotic_distr()"> F Neurotic Ranked </a></td>
+</tr>
+<tr>
+  <th>Male</th>
+    <td><a href ="#" onclick="load_male_agree_distr()"> M Agree Ranked </a></td>
+    <td><a href ="#" onclick="load_male_openness_distr()"> M Openness Ranked </a></td>
+    <td><a href ="#" onclick="load_male_tentative_distr()"> M Tentative Ranked </a></td>
+    <td><a href ="#" onclick="load_male_extraversion_distr()"> M Extraversion Ranked </a></td>
+    <td><a href ="#" onclick="load_male_neurotic_distr()"> M Neurotic Ranked </a></td>
+</tr>
+</table>
+
+</div>
+
+<hr>
+
+<div class="wrapper" id="content" style="height:90%; width:100%; float:bottom; overflow-x:hidden;overflow-y:hidden;"> </div>
+
+<script>
+
+var height = document.getElementById('content').clientHeight;
+
+function load_female_agree_distr() {
+     document.getElementById("content").innerHTML='<object type="text/html" data="compare_gender_graphs_d3/female_Agreeableness_d3.html" style="width:100%; height:100%;" ></object>';
+};
+
+function load_male_agree_distr() {
+     document.getElementById("content").innerHTML='<object type="text/html" data="compare_gender_graphs_d3/male_Agreeableness_d3.html" style="width:100%; height:100%;" ></object>';
+};
+
+function load_female_openness_distr() {
+     document.getElementById("content").innerHTML='<object type="text/html" data="compare_gender_graphs_d3/female_Openness_d3.html" style="width:100%; height:100%;" ></object>';
+};
+
+function load_male_openness_distr() {
+     document.getElementById("content").innerHTML='<object type="text/html" data="compare_gender_graphs_d3/male_Openness_d3.html" style="width:100%; height:100%;" ></object>';
+};
+
+
+function load_female_tentative_distr() {
+     document.getElementById("content").innerHTML='<object type="text/html" data="compare_gender_graphs_d3/female_Tentative_d3.html" style="width:100%; height:100%;" ></object>';
+};
+
+function load_male_tentative_distr() {
+     document.getElementById("content").innerHTML='<object type="text/html" data="compare_gender_graphs_d3/male_Tentative_d3.html" style="width:100%; height:100%;" ></object>';
+};
+
+function load_female_extraversion_distr() {
+     document.getElementById("content").innerHTML='<object type="text/html" data="compare_gender_graphs_d3/female_Extraversion_d3.html" style="width:100%; height:100%;" ></object>';
+};
+
+function load_male_extraversion_distr() {
+     document.getElementById("content").innerHTML='<object type="text/html" data="compare_gender_graphs_d3/male_Extraversion_d3.html" style="width:100%; height:100%;" ></object>';
+};
+
+function load_female_neurotic_distr() {
+     document.getElementById("content").innerHTML='<object type="text/html" data="compare_gender_graphs_d3/female_Emotional range_d3.html" style="width:100%; height:100%;" ></object>';
+};
+
+function load_male_neurotic_distr() {
+     document.getElementById("content").innerHTML='<object type="text/html" data="compare_gender_graphs_d3/male_Emotional range_d3.html" style="width:100%; height:100%;" ></object>';
+};
+
+</script>
+
+
+</body>
+</html>
+

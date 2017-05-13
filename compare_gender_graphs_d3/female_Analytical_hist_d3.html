@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!-- source: https://bl.ocks.org/mbostock/3048450 -->
+
+<meta charset="utf-8">
+<style>
+
+    .bar rect {
+      fill: darkorange;
+    }
+
+    .bar text {
+      fill: #fff;
+      font: 10px sans-serif;
+    }
+
+    .toolTip {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        display: none;
+        width: auto;
+        height: auto;
+        background: none repeat scroll 0 0 white;
+        border: 0 none;
+        border-radius: 8px 8px 8px 8px;
+        box-shadow: -3px 3px 15px #888888;
+        color: black;
+        font: 12px sans-serif;
+        padding: 5px;
+        text-align: center;
+    }
+    
+</style>
+
+<body>
+    <h1 align="center" style="font-family:Helvetica, Ariel, sans-serif;">FEMALE - ANALYTICAL</h1>
+</body>
+
+<svg width="800" height="400"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+    var data = [0.692202,0.674179,0.659343,0.648793,0.595414,0.592462,0.58746,0.580411,0.553136,0.552187,0.551471,0.517301,0.506042,0.505494,0.502839,0.50073,0.496955,0.48772,0.474957,0.472995,0.469296,0.469008,0.468357,0.465323,0.459503,0.448635,0.442051,0.435875,0.429421,0.428377,0.415087,0.40508,0.402004,0.401112,0.391782,0.39112,0.388069,0.38549,0.385043,0.372914,0.369128,0.360795,0.357225,0.352403,0.347279,0.344724,0.339245,0.331059,0.33015,0.3247,0.322317,0.321106,0.305666,0.303508,0.291846,0.289617,0.282006,0.273475,0.269104,0.268169,0.261435,0.253222,0.250711,0.243971,0.241046,0.236729,0.234966,0.233767,0.231013,0.230876,0.229533,0.227674,0.224236,0.219282,0.215346,0.212258,0.209055,0.208234,0.202626,0.19728,0.187734,0.185849,0.183339,0.181742,0.174947,0.174624,0.174369,0.173537,0.166118,0.165541,0.160642,0.159712,0.158033,0.151207,0.14962,0.139899,0.137121,0.136439,0.134027,0.126049,0.121105,0.12009,0.115889,0.114409,0.111904,0.111721,0.110467,0.100412,0.098535,0.095371,0.088148,0.084659,0.079658,0.078882,0.074076,0.073438,0.06782,0.067555,0.061179,0.060041,0.05567,0.054811,0.05373,0.044596,0.038435,0.037764,0.036161,0.03406,0.033914,0.031466,0.03119,0.030256,0.026889,0.026268,0.025796,0.024506,0.023969,0.018624,0.018094,0.017721,0.016797,0.016514,0.014796,0.012339,0.012024,0.011695,0.010652,0.010517,0.009844,0.0075,0.006409,0.00327,0.00317,0.00284,0.00283,0.002797,0.002398,0.001644,0.001275,0.001255,0.00125,0.001102,0.00093,0.000579,0.000436,0.00043,0.000153,9.5e-05,5.6e-05,5.1e-05,2.4e-05,2.2e-05,2.2e-05,5e-06,3e-06,1e-06,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0];
+
+    var formatCount = d3.format(",.0f");
+
+    var svg = d3.select("svg"),
+        margin = {top: 10, right: 30, bottom: 30, left: 30},
+        width = +svg.attr("width") - margin.left - margin.right,
+        height = +svg.attr("height") - margin.top - margin.bottom,
+        g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var x = d3.scaleLinear()
+        .rangeRound([0, width]);
+
+    var bins = d3.histogram()
+        .domain(x.domain())
+        .thresholds(x.ticks(20))
+        (data);
+
+    var y = d3.scaleLinear()
+        .domain([0, d3.max(bins, function(d) { return d.length; })])
+        .range([height, 0]);
+
+    var bar = g.selectAll(".bar")
+        .data(bins)
+        .enter().append("g")
+        .attr("class", "bar")
+        .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; });
+
+    bar.append("rect")
+        .attr("x", 1)
+        .attr("width", x(bins[0].x1) - x(bins[0].x0) - 1)
+        .attr("height", function(d) { return height - y(d.length); });
+
+    bar.append("text")
+        .attr("dy", ".75em")
+        .attr("y", 6)
+        .attr("x", (x(bins[0].x1) - x(bins[0].x0)) / 2)
+        .attr("text-anchor", "middle")
+        .text(function(d) { return formatCount(d.length); });
+
+    g.append("g")
+        .attr("class", "axis axis--x")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+    var div = d3.select("body").append("div").attr("class", "toolTip");
+
+    bar.on("mousemove", function(d, i){
+                div.style("left", d3.event.pageX+10+"px");
+                div.style("top", d3.event.pageY-25+"px");
+                div.style("display", "inline-block");
+                div.html(formatCount(d.length));
+            });
+
+    bar.on("mouseout", function(d){
+                div.style("display", "none");
+            });
+
+</script>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<!-- 
+source: http://bl.ocks.org/kiranml1/6872226 
+		http://bl.ocks.org/juan-cb/faf62e91e3c70a99a306
+-->
+<meta charset="utf-8">
+<style>
+    .toolTip {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        display: none;
+        width: auto;
+        height: auto;
+        background: none repeat scroll 0 0 white;
+        border: 0 none;
+        border-radius: 8px 8px 8px 8px;
+        box-shadow: -3px 3px 15px #888888;
+        color: black;
+        font: 12px sans-serif;
+        padding: 5px;
+        text-align: center;
+    }
+</style>
+
+<html>
+<head>
+	<title>Horizontal Charts</title>
+	<style>
+	#xaxis .domain {
+		fill:none;
+		stroke:#000;
+	}
+	#xaxis text, #yaxis text {
+		font-size: 12px;
+	}
+	</style>
+</head>
+<body>
+	<h1 align="center" style="font-family:Helvetica, Ariel, sans-serif;">MALE - FEAR</h1>
+
+	<div id="wrapper">
+	</div>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script>
+		var scores = [0.703002,0.641648,0.631188,0.626065,0.608017,0.605441,0.605126,0.602946,0.602937,0.599828,0.589613,0.566303,0.565234,0.564264,0.562443,0.55403,0.551912,0.54948,0.541402,0.539554,0.539398,0.538728,0.535959,0.535941,0.533306,0.53085,0.529332,0.52868,0.527099,0.526433,0.523878,0.521424,0.51998,0.517593,0.514762,0.514272,0.513404,0.510436,0.508975,0.506973,0.503015,0.500701,0.500328,0.49963,0.497332,0.495316,0.492766,0.49009,0.489258,0.487482,0.485759,0.483824,0.481953,0.480799,0.478203,0.478148,0.477606,0.47679,0.475583,0.474638,0.472773,0.472322,0.471421,0.471166,0.469752,0.468494,0.466762,0.465497,0.465066,0.4644,0.463323,0.46322,0.462052,0.461199,0.461005,0.459855,0.459499,0.45942,0.459155,0.457509,0.456023,0.454493,0.454104,0.453204,0.449809,0.448558,0.4478,0.44738,0.445501,0.445366,0.443479,0.443473,0.44204,0.440143,0.437394,0.436927,0.436462,0.43639,0.434522,0.433239,0.429611,0.427899,0.256227,0.242935,0.232395,0.231065,0.227635,0.226478,0.225877,0.224793,0.223321,0.223286,0.220879,0.220146,0.219785,0.218817,0.218091,0.218036,0.216041,0.215492,0.213994,0.213875,0.213207,0.212467,0.212413,0.212196,0.211789,0.211682,0.211595,0.210866,0.210797,0.210181,0.210124,0.208772,0.207902,0.207896,0.207304,0.207179,0.206726,0.206427,0.206417,0.206283,0.206269,0.206016,0.205685,0.204905,0.204636,0.204625,0.204162,0.203995,0.203795,0.203183,0.202714,0.202521,0.201414,0.201074,0.200952,0.200944,0.200672,0.200554,0.200431,0.19993,0.199538,0.199536,0.198867,0.198542,0.198426,0.198339,0.198151,0.198144,0.197918,0.197904,0.197855,0.19774,0.197705,0.197626,0.197577,0.197297,0.197214,0.197073,0.196774,0.195944,0.195932,0.19567,0.195637,0.195361,0.194745,0.194545,0.194508,0.194158,0.193912,0.193885,0.193824,0.193707,0.193691,0.19368,0.19346,0.193337,0.193245,0.193128,0.193082,0.192588,0.192541,0.192459,0.192403,0.192373,0.192357,0.192315,0.19212,0.191932,0.191929,0.191889,0.191819,0.191514,0.191274,0.191195,0.191081,0.190902,0.190837,0.190761,0.190663,0.190208,0.190205,0.190171,0.190114,0.189906,0.189874,0.189814,0.189766,0.189671,0.189646,0.189388,0.189218,0.189195,0.18898,0.18897,0.188912,0.188364,0.188303,0.188145,0.188115,0.188054,0.187977,0.187975,0.187906,0.187881,0.187751,0.187743,0.187629,0.187583,0.187559,0.187369,0.187199,0.187189,0.187153,0.187126,0.187022,0.186885,0.186793,0.186729,0.18672,0.18671,0.186666,0.186655,0.186582,0.186488,0.186348,0.186336,0.186191,0.18608,0.186015,0.185953,0.185943,0.185812,0.185791,0.185656,0.185576,0.185338,0.18531,0.185271,0.18523,0.185208,0.185184,0.185096,0.184979,0.184929,0.184769,0.184767,0.184734,0.184729,0.184555,0.184529,0.184433,0.184236,0.18419,0.18407,0.184019,0.183922,0.183833,0.183758,0.183706,0.183592,0.183522,0.183401,0.18328,0.183269,0.183182,0.183166,0.182866,0.182804,0.182595,0.182533,0.182406,0.182401,0.182388,0.182353,0.182283,0.182225,0.182183,0.182046,0.182012,0.181999,0.181949,0.181929,0.181758,0.181539,0.181521,0.181507,0.181487,0.181194,0.181093,0.181048,0.181028,0.18093,0.180912,0.180877,0.180798,0.180752,0.180702,0.180537,0.180518,0.180449,0.180282,0.180135,0.18005,0.180031,0.179937,0.179907,0.179886,0.179846,0.179766,0.179523,0.179511,0.179398,0.17917,0.179094,0.179035,0.178881,0.178797,0.178766,0.178643,0.178613,0.178419,0.178338,0.17825,0.178214,0.17815,0.177963,0.177933,0.17785,0.177641,0.177426,0.17739,0.17733,0.177309,0.177299,0.177237,0.17712,0.177091,0.177004,0.176781,0.176746,0.176582,0.176529,0.176456,0.17645,0.17636,0.176326,0.176284,0.176266,0.176215,0.176202,0.176158,0.176148,0.176086,0.176012,0.175939,0.175912,0.175808,0.175656,0.17565,0.175623,0.175418,0.175411,0.175409,0.175356,0.175355,0.175186,0.175153,0.175027,0.175013,0.174943,0.174891,0.174869,0.17483,0.174824,0.174823,0.174772,0.174559,0.174535,0.174528,0.174427,0.174272,0.174221,0.17404,0.174019,0.173954,0.173948,0.173901,0.1738,0.173775,0.173745,0.173682,0.173668,0.173555,0.173397,0.173302,0.173254,0.173241,0.173183,0.173064,0.172909,0.172871,0.172729,0.172551,0.172425,0.17241,0.172384,0.172308,0.172279,0.172196,0.172119,0.172063,0.172043,0.172043,0.171814,0.171787,0.171729,0.171722,0.171509,0.171466,0.171427,0.171403,0.171373,0.171332,0.171316,0.171148,0.171014,0.170992,0.17093,0.170917,0.170792,0.1707,0.170682,0.170616,0.170394,0.170288,0.170283,0.170257,0.170206,0.170201,0.170194,0.170193,0.170173,0.17017,0.170158,0.170115,0.170093,0.17008,0.170051,0.169988,0.16987,0.169668,0.16966,0.169556,0.169431,0.169358,0.169318,0.169272,0.169268,0.169259,0.169051,0.169001,0.168983,0.16897,0.16897,0.168928,0.1689,0.168768,0.168475,0.168404,0.168324,0.168242,0.168185,0.168107,0.167957,0.167902,0.167785,0.167673,0.167561,0.167414,0.167403,0.167339,0.16718,0.166965,0.166963,0.16689,0.166867,0.166864,0.166789,0.166763,0.166708,0.166464,0.166424,0.166389,0.16635,0.166143,0.166106,0.166065,0.16585,0.165792,0.165617,0.165448,0.165366,0.165276,0.165168,0.16511,0.165041,0.164961,0.164921,0.164801,0.164677,0.164645,0.164617,0.164575,0.164528,0.164338,0.164266,0.164201,0.164194,0.164186,0.164158,0.164138,0.164138,0.164133,0.164111,0.164048,0.164009,0.16395,0.163884,0.163449,0.163429,0.163299,0.163286,0.162903,0.162853,0.162783,0.162732,0.162723,0.162664,0.162564,0.162536,0.162516,0.16247,0.162458,0.162383,0.162378,0.16233,0.162311,0.162297,0.162088,0.162081,0.162015,0.161973,0.161957,0.161821,0.161805,0.161782,0.161769,0.161754,0.161726,0.161665,0.161585,0.161562,0.161559,0.16155,0.161444,0.161379,0.161355,0.161249,0.161222,0.161115,0.161096,0.16104,0.160987,0.1609,0.160744,0.160724,0.160597,0.160536,0.160522,0.160456,0.160448,0.16043,0.160407,0.160395,0.160334,0.160274,0.160126,0.160047,0.160024,0.16002,0.159935,0.159726,0.159716,0.159589,0.159331,0.159296,0.159261,0.159153,0.159088,0.159009,0.158936,0.158758,0.158737,0.158658,0.158593,0.158542,0.158531,0.158483,0.158375,0.158153,0.158016,0.157979,0.1579,0.157851,0.157743,0.157673,0.15739,0.157212,0.157177,0.1571,0.157092,0.157051,0.157033,0.156973,0.15672,0.156589,0.156426,0.156407,0.156346,0.156269,0.156007,0.155929,0.155904,0.155812,0.155677,0.155653,0.155528,0.155508,0.155401,0.15532,0.155117,0.155044,0.155001,0.154986,0.154978,0.154842,0.154766,0.154606,0.154567,0.154413,0.154321,0.154171,0.154166,0.154143,0.154081,0.153983,0.153844,0.153843,0.153804,0.153669,0.153617,0.153566,0.153514,0.153492,0.153342,0.153198,0.153129,0.15312,0.153104,0.153059,0.15304,0.153014,0.152993,0.152916,0.15289,0.152881,0.152864,0.152835,0.15277,0.152666,0.152661,0.15226,0.152195,0.151964,0.151883,0.151379,0.151362,0.151251,0.151222,0.151071,0.151048,0.150829,0.15077,0.150609,0.150545,0.150425,0.150375,0.150178,0.149636,0.149576,0.149397,0.148798,0.148783,0.148693,0.148665,0.148622,0.148574,0.147857,0.14733,0.147271,0.147111,0.147107,0.14704,0.146906,0.146528,0.146253,0.145654,0.145644,0.145573,0.14543,0.145078,0.145022,0.145014,0.14453,0.144394,0.144067,0.143902,0.14383,0.143722,0.143333,0.142967,0.142403,0.142395,0.142387,0.142367,0.141611,0.141523,0.141379,0.141372,0.14084,0.140772,0.140566,0.14051,0.140501,0.140304,0.140271,0.140214,0.140175,0.140109,0.140006,0.139513,0.139497,0.13932,0.139159,0.138975,0.138959,0.13855,0.138369,0.138085,0.137899,0.137373,0.137028,0.136445,0.136182,0.135189,0.135032,0.133326,0.133167,0.131582,0.130446,0.129351,0.129165,0.128743,0.12674,0.126191,0.124607,0.123754,0.121052,0.114188];
+		var categories = ["","Lost Horizon - CHANG","Apocalypse Now - KURTZ","Buffy the Vampire Slayer - PIKE","Ninotchka - BULJANOFF","Being John Malkovich - LESTER","RKO 281 - SCHAEFER","Snow Falling On Cedars - HOOKS","Apocalypse Now - KILGORE","Bull Durham - CRASH","Watchmen - DR. MANHATTAN","Misery - PAUL","Fear and Loathing in Las Vegas - DUKE","Never Been Kissed - ROB","Final Destination - ALEX","Serial Mom - DAD","Brazil - JACK","Supergirl - ETHAN","Spare Me - SID","Slither - BILL","Event Horizon - WEIR","Unbreakable - DAVID","Signs - MERRILL","Rocky - APOLLO","Storytelling - MIKEY","Kafka - KAFKA","Ninotchka - LEON","Rear Window - DOYLE","Ed Wood - ED","Scream - RANDY","Blade Runner - SEBASTIAN","Bottle Rocket - BOB","Charade - PETER","Pitch Black - RIDDICK","Scream 2 - DEREK","Erin Brockovich - ED","Brazil - SAM","Ninotchka - KOPALSKI","Bachelor Party - RICK","Storytelling - TOBY","To Sleep with Anger - HARRY","High Fidelity - ROB","Memento - TEDDY","Airplane - STRIKER","Ronin - SAM","Sleepless in Seattle - SAM","RKO 281 - WELLES","Sleepy Hollow - ICHABOD","Die Hard - POWELL","Lost Highway - PETE","Magnolia - DONNIE","Magnolia - JIM KURRING","Toy Story - ANDY","Fight Club - TYLER","Basquiat - BASQUIAT","Platinum Blonde - STEW","Arctic Blue - ERIC","Very Bad Things - BOYD","Collateral - VINCENT","Memento - LEONARD","Basic - PIKE","Lake Placid - KEOUGH","Logan's Run - OLD MAN","Platoon - CHRIS","Miami Vice - TUBBS","O Brother Where Art Thou%3f - DELMAR","Bottle Rocket - ANTHONY","Very Bad Things - FISHER","Roughshod - STEVE","Legally Blonde - WARNER","Jaws 2 - MIKE","What Lies Beneath - NORMAN","American Psycho - KIMBALL","Marty - ANGIE","Out of Sight - BUDDY","All About Eve - LLOYD","Grand Hotel - BARON","Meet Joe Black - YOUNG MAN","I Still Know What You Did Last Summer - WILL","Ed TV - ED","Shallow Grave - DAVID","Jurassic Park III - PAUL","Citizen Kane - THOMPSON","Indiana Jones and the Last Crusade - INDY","My Girl - THOMAS J","Taking Sides - DAVID","Reindeer Games - RUDY","Nashville - KENNY","Grand Hotel - PREYSING","Men in Black - ZED","Lord of Illusions - VALENTIN","Day of the Dead - JOHN","Lost in Translation - BOB","Detroit Rock City - LEX","Indiana Jones and the Last Crusade - BRODY","Bringing Out the Dead - FRANK","Birthday Girl - YURI","Solaris - KELVIN","Hannah and Her Sisters - FREDERICK","Mumford - MUMFORD","Runaway Bride - IKE","Happy Birthday, Wanda June - SHUTTLE","Taking Sides - STEVE","Beavis and Butt head Do America - BUTT-HEAD","Rocky - MICKEY","Ghost Ship - GREER","Sleepless in Seattle - JONAH","Pet Sematary II - DREW","Dog Day Afternoon - MORETTI","Shivers - ST. LUC","Escape From L.A. - PLISSKEN","All the President's Men - WOODWARD","Lost Highway - FRED","Top Gun - GOOSE","Mimic - LEONARD","Magnolia - JIMMY","Magnolia - PHIL","Romeo & Juliet - MERCUTIO","Glengarry Glen Gross - AARONOW","Silver Bullet - MARTY","Fletch - FLETCH","Blood Simple - RAY","Shampoo - GEORGE","Spider Man - SPIDER-MAN","Jaws - HOOPER","Nurse Betty - ROY","Bones - JEREMIAH","Duck Soup - MRS. TEASDALE","Snow Falling On Cedars - MORAN","Scream - DEWEY","Final Destination 2 - THOMAS","Kramer vs Kramer - BILLY","Swingers - MIKE","Gattaca - EUGENE","True Lies - SIMON","Life As A House - GEORGE","House of 1000 Corpses - BILL","Glengarry Glen Gross - LINGK","Lake Placid - HECTOR","Signs - MORGAN","Kramer vs Kramer - TED","Fargo - JERRY","Top Gun - MAVERICK","Mystery Men - SHOVELER","Hostage - KEVIN","Lone Star - DEL","Metro - ROPER","Copycat - ANDY","Cherry Falls - KENNY","Beavis and Butt head Do America - BEAVIS","Austin Powers   International Man of Mystery - BASIL EXPOSITION","Blade II - BLADE","Tombstone - VIRGIL","Juno - MARK","Detroit Rock City - JAM","Malcolm X - MALCOLM","Aliens - BURKE","Roughshod - CLAY","Mystery Men - FURIOUS","Solaris - SNOW","Cliffhanger - HAL","Affliction - WADE","Sphere - NORMAN","Taxi Driver - TRAVIS","Dark Star - PINBACK","Intolerable Cruelty - MILES","Nurse Betty - DEL","Basic Instinct - GUS","xXx - XANDER","Fargo - WADE","No Country for Old Men - BELL","Metro - MCCALL","Jennifer Eight - BERLIN","Magnolia - FRANK","Backdraft - SHADOW","Anastasia - DMITRI","Blood Simple - MEURICE","Godfather - SONNY","Klute - KLUTE","American Madness - MATT","JFK - LOU","Shampoo - POPE","Wild At Heart - JOHNNIE","Braveheart - WILLIAM","It Happened One Night - PETER","Ed Wood - TOR","His Girl Friday - BRUCE","Rebel Without A Cause - PLATO","It's a Wonderful Life - CLARENCE","Jacob's Ladder - JACOB","American Werewolf in London - DAVID","Bottle Rocket - DIGNAN","Jackie Brown - LOUIS","Point Break - BODHI","Rear Window - JEFF","Reservoir Dogs - FREDDY","Mumford - SKIP","Ghost Ship - MURPHY","Glengarry Glen Gross - ROMA","Starship Troopers - JOHNNY","Kalifornia - BRIAN","Storytelling - SCOOBY","True Lies - GIB","Dark City - SCHREBER","Rambling Rose - WILLCOX HILLYER","Virtuosity - PARKER","Die Hard - MCCLANE","Natural Born Killers - WAYNE","Chinatown - GITTES","Blast from the Past, The - TROY","Independence Day - PRESIDENT","Nightmare on Elm Street, A - GLEN","Blood Simple - VISSER","U Turn - DARRELL","Day of the Dead - TOBY","Supergirl - ZALTAR","Rambling Rose - BUDDY","Indiana Jones and the Temple of Doom - INDIANA","Starship Troopers - ZANDER","Sweet Smell of Success - SIDNEY","Frances - HARRY","Gods and Monsters - WHALE","Happy Birthday, Wanda June - PAUL","Philadelphia - JOE","Casino - LESTER","Jaws - QUINT","Blade Runner - BATTY","Ghost Ship - DODGE","To Sleep with Anger - BABE BROTHER","Fear and Loathing in Las Vegas - GONZO","Lone Star - SAM","Enemy of the State - BRILL","Scream - STU","Enemy of the State - REYNOLDS","Mr Deeds Goes to Town - COBB","Jason X - BRODSKI","Basic - KENDALL","Dog Day Afternoon - LEON","Sphere - HARRY","Event Horizon - COOPER","All the President's Men - BERNSTEIN","Klute - CABLE","Sling Blade - DOYLE","Being John Malkovich - MALKOVICH","Who Framed Roger Rabbit%3f - VALIANT","Sideways - JACK","Assassins - RATH","Buffy the Vampire Slayer - MERRICK","Jaws 2 - HENDRICKS","Next Friday - MR. JONES","White Squall - SKIPPER","There's Something About Mary - TUCKER","Lake Placid - JACK","Indiana Jones and the Last Crusade - DONOVAN","Toy Story - WOODY","Face Off - CASTOR","JFK - BILL","Starman - FOX","Pretty Woman - STUCKEY","Fargo - VOICE","Tremors - VAL","Tremors - EARL","Gone in 60 Seconds - KIP","Legally Blonde - EMMETT","Psycho - SAM","L.A. Confidential - BUD","Rocky - PAULIE","Blade - WHISTLER","Rebel Without A Cause - RAY","Indiana Jones and the Last Crusade - HENRY","Out of Sight - MARSHALL","Blade II - WHISTLER","Annie Hall - ROB","No Country for Old Men - CHIGURH","Jennifer Eight - ROSS","Reservoir Dogs - MR. WHITE","Bull Durham - NUKE","Happy Birthday, Wanda June - LOOSELEAF","Little Nicky - NICKY","Sister Act - EDDIE","Nashville - BARNETT","Lost Horizon - GEORGE","Jurassic Park III - GRANT","Wild Things - RAY","Braveheart - WALLACE","Eternal Sunshine of the Spotless Mind - JOEL","Sleepy Hollow - YOUNG MASBATH","His Girl Friday - ENDICOTT","Game 6 - ELLIOT","Mission Impossible - ETHAN","Hannibal - VERGER","Very Bad Things - MOORE","Friday the 13th - BILL","Glengarry Glen Gross - WILLIAMSON","Mr Deeds Goes to Town - LONGFELLOW","Pirates of the Caribbean - JACK","True Lies - HARRY","Next Friday - CRAIG","Cast Away - BADCHUCK","Bones - PATRICK","Beloved - STAMP PAID","Leviathan - BECK","Duck Soup - CHICO","Miami Vice - CROCKETT","Shakespeare in Love - HENSLOWE","Apocalypse Now - CHIEF","Kalifornia - EARLY","Gladiator - PROXIMO","Crime Spree - MARCEL","Lost Horizon - BARNARD","Scream - BILLY","Psycho - ARBOGAST","Hackers - PLAGUE","Snow Falling On Cedars - NELS","Jackie Brown - MAX","Pitch Black - JOHNS","Insomnia - WILL","No Country for Old Men - WELLS","Apocalypse Now - CHEF","Independence Day - STEVE","Hannah and Her Sisters - ELLIOT","Life As A House - SAM","Out of Sight - FOLEY","Starship Troopers - ACE","Blow - DIEGO","Bamboozled - DELACROIX","Sex, Lies and Videotape - GRAHAM","Erin Brockovich - GEORGE","Top Gun - VIPER","Hellraiser - LARRY","Jaws - BRODY","Affliction - JACK","Confidence - JAKE","Copycat - QUINN","L.A. Confidential - JACK","Independence Day - DAVID","Leaving Las Vegas - BEN","Dead Poets Society - CHARLIE","Cliffhanger - GABE","Insomnia - WALTER","Cliffhanger - TRAVERS","Glengarry Glen Gross - MOSS","JFK - FERRIE","Gattaca - JEROME","Basic - DUNBAR","Starman - SHERMIN","Bamboozled - MANTAN","Dog Day Afternoon - MULVANEY","Meet John Doe - JOHN","Next Friday - UNCLE ELROY","It's a Wonderful Life - GEORGE","Panic Room - BURNHAM","Saving Private Ryan - MILLER","His Girl Friday - MURPHY","Wall Street - GEKKO","Chinatown - ESCOBAR","Spare Me - BUZZ","Casino - ACE","Deep Rising - PANTUCCI","Clerks - DANTE","Collateral - MAX","Wag the Dog - BREAN","American Pie - STIFLER","Smokin' Aces - MESSNER","Jackie Brown - NICOLET","Gone in 60 Seconds - MEMPHIS","Dark Star - DOOLITTLE","Black Snake Moan - RONNIE","Midnight Express - MAX","Beavis and Butt head Do America - FLEMMING","Sweet Smell of Success - HUNSECKER","Sphere - BARNES","Entrapment - MAC","Scream 2 - DEWEY","Crouching Tiger, Hidden Dragon - LI","One Flew Over the Cuckoo's Nest - MCMURPHY","Next Friday - ROACH","Blue Velvet - JEFFREY","Backdraft - BRIAN","Mimic - PETER","Hackers - DADE","Sugar and Spice - JACK","Mission Impossible II - LUTHER","15 Minutes - EDDIE","Trainspotting - RENTON","Gladiator - COMMODUS","8MM - DINO VELVET","Basic - STYLES","Pearl Harbor - DANNY","Good Will Hunting - CHUCKIE","It's a Wonderful Life - UNCLE BILLY","Blood Simple - MARTY","Cruel Intentions - SEBASTIAN","Meet John Doe - CONNELL","Bound - CAESAR","Face Off - ARCHER","Titanic - JACK","Punch Drunk Love - BARRY","Natural Born Killers - WURLITZER","Blade - BLADE","Last of the Mohicans, The - HAWKEYE","My Girl - HARRY","Predator - DILLON","Hellboy - HELLBOY","Wild At Heart - SAILOR","Croupier - REYNOLDS","Sweet Smell of Success - STEVE","Shallow Grave - ALEX","Bean - DAVID","Nick of Time - GENE","Affliction - LARIVIERE","Alien Nation - SYKES","Sling Blade - KARL","Nick of Time - HUEY","Do The Right Thing - MOOKIE","Black Snake Moan - LAZARUS","Panic Room - JUNIOR","Clerks - RANDAL","Crime Spree - DANIEL","Sideways - MILES","Lost Horizon - LOVETT","Juno - BLEEKER","O Brother Where Art Thou%3f - PETE","Godzilla - ANIMAL","Black Rain - NICK","Mystery Men - RAJA","Bamboozled - DUNWITTY","Notting Hill - MAX","Rocky - ROCKY","Magnolia - STANLEY","All About Eve - ADDISON","Hudson Hawk - HAWK","Someone To Watch Over Me - MIKE","Planet of the Apes, The - CORNELIUS","Mission Impossible - PHELPS","Wild At Heart - BOBBY","Man in the Iron Mask - PORTHOS","Big Fish - WILL","Enemy of the State - DEAN","Godfather Part II - HAGEN","Monkeybone - STU","Smokin' Aces - LOCKE","Frequency - FRANK","Monkeybone - MONKEYBONE","Saving Private Ryan - REIBEN","Signs - GRAHAM","Saving Private Ryan - UPHAM","Confidence - MILES","Bottle Rocket - MR. HENRY","Escape From L.A. - MALLOY","Confidence - GORDO","American Pie - KEVIN","Event Horizon - MILLER","Barton Fink - BARTON","There's Something About Mary - DOM","Titanic - CAL","Affliction - ROLFE","Batman - KNOX","Mission Impossible - KITTRIDGE","Being There - ALLENBY","Basic Instinct - NICK","Detroit Rock City - TRIP","Fantastic Four - REED","Ghost World - SEYMOUR","Nashville - TRIPLETTE","Game 6 - NICKY","Meet Joe Black - PARRISH","American Pie - JIM","Arcade - NICK","Do The Right Thing - PINO","Do The Right Thing - SAL","Get Shorty - MARTIN","Psycho - NORMAN","Spare Me - THEO","Point Break - PAPPAS","Dog Day Afternoon - SONNY","Assassins - BAIN","No Country for Old Men - MOSS","High Fidelity - BARRY","Fantastic Four - VICTOR","Crying Game - FERGUS","Kids - TELLY","Blade Runner - DECKARD","Beloved - PAUL","Rush Hour 2 - LEE","Frequency - JOHN","Scream 3 - VOICE","Clerks - CUSTOMER","Love and Basketball - QUINCY","Bachelor Party - COLE","Fargo - CARL","Watchmen - RORSCHACH","Starship Troopers - RASCZAK","Being John Malkovich - CRAIG","xXx - YORGI","Basic - HARDY","Excalibur - ARTHUR","Charade - BARTHOLOMEW","Meet Joe Black - QUINCE","Duck Soup - TRENTINO","Dog Day Afternoon - SAL","Nurse Betty - BALLARD","Independence Day - GENERAL GREY","Sling Blade - VAUGHAN","Walk to Remember, A - LANDON","Witness - SCHAEFFER","Austin Powers   International Man of Mystery - DR. EVIL","Gone in 60 Seconds - OTTO","10 Things I Hate About You - PATRICK","Lock, Stock and Two Smoking Barrels - EDDY","Swingers - ROB","Sling Blade - WOOLRIDGE","Out of Sight - MAURICE","Reservoir Dogs - JOE","Sex, Lies and Videotape - JOHN","Human Nature - PUFF","xXx - GIBBONS","Mission Impossible II - SWANBECK","Mission Impossible II - ETHAN","Hostage - DENNIS","Eternal Sunshine of the Spotless Mind - MIERZWIAK","Aliens - HICKS","Thelma & Louise - JIMMY","Being There - FRANKLIN","Next Friday - DAY-DAY","Hannah and Her Sisters - MICKEY","Tombstone - DOC","Casino - MARINO","Pleasantville - DAVID","Detroit Rock City - HAWK","Natural Born Killers - MICKEY","Moonstruck - RONNY","From Dusk Till Dawn - JACOB","Grosse Point Blank - MARTIN","Pet Sematary - LOUIS","Unbreakable - ELIJAH","TRON - FLYNN","Raging Bull - JOEY","Quantum Project - PENTCHO","King Kong - JACK","Hannibal - PAZZI","Crying Game - DIL","Tomorrow Never Dies - BOND","Fast Times at Ridgemont High - MR. HAND","Panic Room - RAOUL","Swingers - SUE","Hannibal - CORDELL","Frankenstein - VICTOR","Antitrust - MILO","Midnight Cowboy - RATSO","Crime Spree - SAMI","Ed TV - RAY","Air Force One - MARSHALL","Man in the Iron Mask - ATHOS","Shampoo - LESTER","Antitrust - GARY","Pearl Harbor - RAFE","Erik the Viking - KING ARNULF","Schindler's List - GOETH","Spider Man - PETER","Notting Hill - WILLIAM","Lock, Stock and Two Smoking Barrels - TOM","Sphere - TED","Planet of the Apes, The - ZAIUS","Manhunter - CRAWFORD","Reindeer Games - GABRIEL","Who Framed Roger Rabbit%3f - ROGER RABBIT","His Girl Friday - BURNS","Snow Falling On Cedars - ISHMAEL","Midnight Express - BILLY","8MM - EDDIE","Dead Poets Society - NEIL","Hellboy - MYERS","Erik the Viking - KEITEL","Amadeus - MOZART","Fantastic Four - BEN","Pet Sematary - JUD","Smokin' Aces - ISRAEL","Ticker - GLASS","Sunset Blvd. - GILLIS","Hostage - TALLEY","Ed Wood - BELA","Good Will Hunting - WILL","Very Bad Things - ADAM","48 Hrs. - HAMMOND","Citizen Kane - LELAND","True Romance - DICK","Cherry Falls - BRENT","Suspect Zero - MACKELWAY","Barton Fink - CHARLIE","Man On Fire - MANZANO","JFK - JIM","Shakespeare in Love - WESSEX","Shakespeare in Love - WILL","L.A. Confidential - EXLEY","Mrs. Brown - BROWN","Grand Hotel - KRINGELEIN","Man On Fire - RAYBURN","Lone Star - HOLLIS","Cast Away - GOODCHUCK","Out of Sight - RIPLEY","Rebel Without A Cause - FATHER","Saving Private Ryan - JACKSON","Jurassic Park - GRANT","TRON - TRON","Deep Rising - FINNEGAN","RKO 281 - MANK","State and Main - WALT","Jaws 2 - BRODY","Broadcast News - AARON","Citizen Kane - BERNSTEIN","Schindler's List - SCHINDLER","Get Shorty - HARRY","Traffic - GORDON","Blast from the Past, The - CALVIN","One Flew Over the Cuckoo's Nest - BILLY","Mission Impossible II - AMBROSE","Wonder Boys - GRADY","Strange Days - LENNY","Blast from the Past, The - ADAM","Never Been Kissed - SAM","Wall Street - BUD","Rambling Rose - DADDY","O Brother Where Art Thou%3f - EVERETT","10 Things I Hate About You - JOEY","Good Will Hunting - MORGAN","Wall Street - CARL","Die Hard - HANS","Midnight Cowboy - JOE","Lord of Illusions - HARRY","Cast Away - CHUCK","Misery - BUSTER","Pleasantville - GEORGE","10 Things I Hate About You - CAMERON","Jurassic Park III - BILLY","Glengarry Glen Gross - LEVENE","House of 1000 Corpses - JERRY","Being There - PRESIDENT","Godfather Part II - PENTANGELI","Cast Away - STAN","Blow - GEORGE","Silence of the Lambs - CRAWFORD","Sunset Blvd. - MAX","Get Shorty - BO CATLETT","Stepmom - BEN","Event Horizon - SMITH","Toy Story - BUZZ","Happy Birthday, Wanda June - HAROLD","Amadeus - SALIERI","Pirates of the Caribbean - BARBOSSA","Tombstone - WYATT","Point Break - UTAH","Kids - CASPER","One Flew Over the Cuckoo's Nest - HARDING","Jerry Maguire - JERRY","Manhunter - DOLLARHYDE","Backdraft - STEPHEN","Who Framed Roger Rabbit%3f - DOOM","U Turn - BOBBY","Eternal Sunshine of the Spotless Mind - STAN","Bringing Out the Dead - MARCUS","American Psycho - BATEMAN","Logan's Run - LOGAN","Scream 3 - DEWEY","Thunderheart - CROW HORSE","Ninotchka - IRANOFF","Leviathan - JONES","Crying Game - JODY","American Pie - OZ","Man on the Moon - GEORGE","Sling Blade - FRANK","High Fidelity - DICK","Batman - BRUCE","Bean - GRIERSON","White Squall - JOHN","Fast Times at Ridgemont High - SPICOLI","Godfather - MICHAEL","Deep Rising - HANOVER","White Squall - CHUCK","Excalibur - MERLIN","Wonder Boys - CRABTREE","Out of Sight - GLENN","Anastasia - VLADIMIR","Reservoir Dogs - EDDIE","Frankenstein - HENRY","Gods and Monsters - CLAY","His Girl Friday - MAYOR","Human Nature - NATHAN","Stepmom - LUKE","Dead Poets Society - TODD","Dead Poets Society - KNOX","Bad Lieutenant - LT","Trainspotting - SICK BOY","Black Rain - CHARLIE","Annie Hall - ALVY","Birthday Girl - JOHN","Ronin - VINCENT","Sister Act - VINCE","Good Will Hunting - SEAN","Peggy Sue Got Married - CHARLIE","Pet Sematary II - GEOFF","As Good As It Gets - SIMON","Fast Times at Ridgemont High - BRAD","Raging Bull - JAKE","Apocalypse Now - WILLARD","There's Something About Mary - TED","Terminator - REESE","Erik the Viking - ERIK","Minority Report - WITWER","48 Hrs. - CATES","8MM - MAX","Arctic Blue - CORBETT","All About Eve - BILL","Amadeus - SCHIKANEDER","Man in the Iron Mask - LOUIS","Hotel Rwanda - GENERAL BIZIMUNGU","Thirteen Days - KENNY","Dead Poets Society - KEATING","Notting Hill - SPIKE","Wild Things - SAM","Election - JIM","15 Minutes - EMIL","Nashville - TOM","Fast Times at Ridgemont High - DAMONE","My Best Friend's Wedding - MICHAEL","Mrs. Brown - DISRAELI","Thirteen Days - THE PRESIDENT","RKO 281 - HEARST","State and Main - MARTY","Lone Star - OTIS","Philadelphia - ANDREW","Get Shorty - CHILI","Jackie Brown - ORDELL","Godfather Part II - FREDO","Peggy Sue Got Married - RICHARD","Last of the Mohicans, The - HEYWARD","8MM - WELLES","Nurse Betty - CHARLIE","Spare Me - KASTLE","Broadcast News - TOM","Traffic - ROBERT","U Turn - JAKE","Lost Horizon - CONWAY","Man in the Iron Mask - ARAMIS","Feast - BOSS MAN","Pretty Woman - EDWARD","Good Will Hunting - LAMBEAU","10 Things I Hate About You - MICHAEL","To Sleep with Anger - GIDEON","Rebel Without A Cause - JIM","Man On Fire - CREASY","Bones - BONES","Mrs. Brown - PONSONBY","Rush Hour 2 - CARTER","Body of Evidence - DULANEY","Thunderheart - RAY","Chinatown - CROSS","Dune - PAUL","Godfather - HAGEN","Manhunter - LECKTOR","American Madness - DICKSON","State and Main - BOB","Man in the Iron Mask - D'ARTAGNAN","Witness - BOOK","G.I. Jane - ROYCE","Jurassic Park - HAMMOND","Platoon - KING","Bachelor Party - O'NEILL","There's Something About Mary - HEALY","10 Things I Hate About You - WALTER","Schindler's List - STERN","Moonstruck - MR. JOHNNY","Man on the Moon - ANDY","Lord of Illusions - SWANN","Godfather - DON CORLEONE","Meet Joe Black - DREW","Badlands - KIT","Moonstruck - COSMO","Frequency - SATCH","Reindeer Games - NICK","Kramer vs Kramer - SHAUNESSY","Love and Basketball - ZEKE","Swingers - TRENT","Mulholland Drive - ADAM","Manhunter - GRAHAM","Strange Days - MAX","15 Minutes - JORDY","Hotel Rwanda - PAUL","Reservoir Dogs - MR. PINK","Erik the Viking - SVEN","As Good As It Gets - MELVIN","State and Main - DOUG","Meet Joe Black - JOE","Hellraiser - FRANK","Romeo & Juliet - ROMEO","Croupier - JACK","Jaws 2 - VAUGHN","L.A. Confidential - DUDLEY","Shakespeare in Love - FENNYMAN","Fantastic Four - JOHNNY","Amadeus - JOSEPH","Marty - MARTY","Casino - NICKY","From Dusk Till Dawn - RICHARD","Malcolm X - ARCHIE","Nick of Time - MR. SMITH","Confidence - KING PIN","Mr Deeds Goes to Town - CEDAR","From Dusk Till Dawn - SETH","Jerry Maguire - TIDWELL","American Werewolf in London - JACK","Nurse Betty - WESLEY","Clerks - JAY","Get Carter - CARTER","True Romance - CLARENCE","Godfather Part II - MICHAEL","Pleasantville - BOB","Excalibur - LANCELOT","15 Minutes - OLEG","Austin Powers   International Man of Mystery - AUSTIN","Amadeus - OLD SALIERI","Being There - CHANCE"];
+		
+		//var colors = ['#0000b4','#0082ca','#0094ff','#0d4bcf','#0066AE','#074285','#00187B','#285964','#405F83','#416545','#4D7069','#6E9985','#7EBC89','#0283AF','#79BCBF','#99C19E'];
+		var color_hex = 'steelblue'
+
+		var colors = []
+		var i;
+		for (i=0; i<categories.length; i++) {
+			colors.push(color_hex);
+		}
+
+		var y_size = categories.length*25
+
+		var grid = d3.range(21).map(function(i){
+			return {'x1':0,'y1':0,'x2':0,'y2':y_size};
+		});
+
+		var tickVals = grid.map(function(d,i){
+			if(i>0){ return i/10; }
+			else if(i===0){ return "1";}
+		});
+
+		var xscale = d3.scale.linear()
+						.domain([0,1])
+						.range([0,700]);
+
+		var yscale = d3.scale.linear()
+						.domain([0,categories.length])
+						.range([0,y_size]);
+
+		var colorScale = d3.scale.quantize()
+						.domain([0,categories.length])
+						.range(colors);
+
+		var canvas = d3.select('#wrapper')
+						.append('svg')
+						.attr({'width':900,'height':y_size+100});
+
+		var grids = canvas.append('g')
+						  .attr('id','grid')
+						  .attr('transform','translate(200,10)')
+						  .selectAll('line')
+						  .data(grid)
+						  .enter()
+						  .append('line')
+						  .attr({'x1':function(d,i){ return i*35; },
+								 'y1':function(d){ return d.y1; },
+								 'x2':function(d,i){ return i*35; },
+								 'y2':function(d){ return d.y2; },
+							})
+						  .style({'stroke':'#adadad','stroke-width':'1px'});
+
+		var	xAxis = d3.svg.axis();
+			xAxis
+				.orient('bottom')
+				.scale(xscale)
+				.tickValues(tickVals);
+
+		var	yAxis = d3.svg.axis();
+			yAxis
+				.orient('left')
+				.scale(yscale)
+				.tickSize(2)
+				.tickFormat(function(d,i){ return categories[i]; })
+				.tickValues(d3.range(categories.length));
+
+		var y_xis = canvas.append('g')
+						  .attr("transform", "translate(200,2)")
+						  .attr('id','yaxis')
+						  .call(yAxis);
+
+		var x_xis = canvas.append('g')
+						  .attr("transform", "translate(200,"+y_size+")")
+						  .attr('id','xaxis')
+						  .call(xAxis);
+
+		var chart = canvas.append('g')
+							.attr("transform", "translate(200,0)")
+							.attr('id','bars')
+							.selectAll('rect')
+							.data(scores)
+							.enter()
+							.append('rect')
+							.attr('height',18)
+							.attr({'x':0,'y':function(d,i){ return yscale(i)+18; }})
+							.style('fill',function(d,i){ return colorScale(i); })
+							.attr('width',function(d){ return 0; });
+
+
+		var transit = d3.select("svg").selectAll("rect")
+						    .data(scores)
+						    .transition()
+						    .duration(1000) 
+						    .attr("width", function(d) {return xscale(d); });
+
+		var transitext = d3.select('#bars')
+							.selectAll('text')
+							.data(scores)
+							.enter()
+							.append('text')
+							.attr({'x':function(d) {
+										if (d>0.05) {return xscale(d)-35;}
+										else {return xscale(d)+5;} },
+									'y':function(d,i){return yscale(i)+30;}})
+							.text(function(d){return d.toFixed(3);}).style({'fill':'#fff','font-size':'12px','font-family':'Helvetica'});
+
+		var div = d3.select("body").append("div").attr("class", "toolTip");
+		
+	    chart.on("mousemove", function(d, i){
+	                div.style("left", d3.event.pageX+10+"px");
+	                div.style("top", d3.event.pageY-25+"px");
+	                div.style("display", "inline-block");
+	                div.html(categories[i+1]+'<br>'+d);
+	            });
+
+	    chart.on("mouseout", function(d){
+	                div.style("display", "none");
+	            });
+
+	</script>
+</body>
+</html>

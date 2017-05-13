@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<!-- 
+source: http://bl.ocks.org/kiranml1/6872226 
+		http://bl.ocks.org/juan-cb/faf62e91e3c70a99a306
+-->
+<meta charset="utf-8">
+<style>
+    .toolTip {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        display: none;
+        width: auto;
+        height: auto;
+        background: none repeat scroll 0 0 white;
+        border: 0 none;
+        border-radius: 8px 8px 8px 8px;
+        box-shadow: -3px 3px 15px #888888;
+        color: black;
+        font: 12px sans-serif;
+        padding: 5px;
+        text-align: center;
+    }
+</style>
+
+<html>
+<head>
+	<title>Horizontal Charts</title>
+	<style>
+	#xaxis .domain {
+		fill:none;
+		stroke:#000;
+	}
+	#xaxis text, #yaxis text {
+		font-size: 12px;
+	}
+	</style>
+</head>
+<body>
+	<h1 align="center" style="font-family:Helvetica, Ariel, sans-serif;">FEMALE - JOY</h1>
+
+	<div id="wrapper">
+	</div>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script>
+		var scores = [0.672444,0.659476,0.645414,0.63565,0.621195,0.617491,0.612917,0.609398,0.606772,0.605803,0.605295,0.603795,0.60109,0.600192,0.596341,0.596066,0.595981,0.595081,0.593623,0.593595,0.592291,0.589588,0.589588,0.587692,0.585102,0.583929,0.583678,0.582335,0.581648,0.58106,0.579715,0.578984,0.578058,0.577906,0.577882,0.575783,0.575405,0.574914,0.574468,0.573478,0.573026,0.572426,0.572122,0.570596,0.569916,0.569464,0.568771,0.568175,0.567989,0.567842,0.567745,0.567252,0.567009,0.566747,0.565962,0.56573,0.565454,0.565044,0.564881,0.563994,0.563918,0.56072,0.559281,0.55915,0.55821,0.558138,0.558079,0.558035,0.557456,0.557321,0.556154,0.556095,0.555835,0.555378,0.554925,0.554529,0.55323,0.552603,0.55248,0.552181,0.551757,0.551093,0.550747,0.549949,0.549589,0.548742,0.548698,0.547894,0.547647,0.547578,0.546503,0.545713,0.544361,0.544154,0.543807,0.543721,0.541771,0.541688,0.540947,0.540149,0.540118,0.539947,0.538879,0.538812,0.538474,0.537168,0.536671,0.536239,0.535957,0.535399,0.534755,0.534691,0.534434,0.534415,0.532715,0.531723,0.531519,0.531385,0.531191,0.530686,0.530073,0.53004,0.529533,0.528833,0.528739,0.528358,0.527909,0.527705,0.527602,0.527376,0.527036,0.526892,0.525359,0.524474,0.523493,0.520815,0.520155,0.520068,0.519849,0.519803,0.519701,0.519361,0.519355,0.518596,0.518252,0.518175,0.517624,0.517152,0.517142,0.517078,0.516841,0.516398,0.516129,0.515552,0.515264,0.515066,0.514026,0.51394,0.513844,0.513588,0.51332,0.51318,0.512007,0.511957,0.511479,0.51144,0.511054,0.510602,0.510061,0.509923,0.509712,0.509245,0.508325,0.507162,0.506288,0.505179,0.503957,0.502948,0.502778,0.502645,0.501288,0.500916,0.500706,0.50055,0.500329,0.499967,0.499656,0.49963,0.499586,0.499544,0.499365,0.498925,0.498496,0.498308,0.49805,0.496477,0.496324,0.495603,0.495412,0.494979,0.494648,0.493744,0.493472,0.493034,0.491977,0.491485,0.491251,0.490492,0.488867,0.488717,0.488407,0.487961,0.486404,0.486064,0.485532,0.485521,0.485337,0.484702,0.48385,0.482528,0.481628,0.480626,0.480184,0.480067,0.479665,0.478208,0.477487,0.476891,0.47602,0.473488,0.472289,0.472242,0.470454,0.462268,0.461959,0.461548,0.461288,0.461158,0.460385,0.459711,0.458136,0.457869,0.457571,0.454644,0.45452,0.453788,0.452167,0.448465,0.447249,0.44696,0.44141,0.440822,0.440492,0.437512,0.434647,0.431245,0.431084,0.430893,0.430376,0.420843,0.418233,0.200535,0.199301,0.187065,0.183444,0.181013,0.178866,0.178329,0.178315,0.177269,0.175191,0.171995,0.167954,0.165164,0.165033,0.164808,0.163491,0.162789,0.162464,0.162326,0.161787,0.15956,0.158017,0.157164,0.155933,0.154338,0.15385,0.153389,0.153349,0.152912,0.152707,0.152261,0.152032,0.150531,0.149215,0.148691,0.148661,0.148605,0.148301,0.148055,0.147251,0.146979,0.145945,0.145753,0.145635,0.145279,0.14496,0.144826,0.144336,0.144181,0.143452,0.142939,0.142784,0.142264,0.142127,0.141857,0.141246,0.141099,0.140918,0.140772,0.139222,0.138997,0.138942,0.138184,0.137632,0.13719,0.136301,0.136142,0.13603,0.135263,0.13477,0.134313,0.133851,0.133373,0.132865,0.132573,0.131563,0.131562,0.131044,0.127261,0.127099,0.127098,0.125963,0.125914,0.124884,0.123954,0.123381,0.12312,0.12301,0.122914,0.122884,0.122651,0.122507,0.122158,0.121071,0.120714,0.120612,0.119994,0.119135,0.118356,0.11746,0.115295,0.115167,0.113858,0.112674,0.112224,0.111492,0.111481,0.107286,0.104896,0.101642,0.100119,0.098621,0.097207,0.093441,0.092186,0.076328];
+		var categories = ["","Crazylove - MRS. MAYER","Aliens - NEWT","State and Main - CLAIRE","American Pie - VICKY","Godfather Part II - KAY","State and Main - ANN","Hannah and Her Sisters - APRIL","Croupier - MARION","Shakespeare in Love - VIOLA","Meet Joe Black - ALLISON","Big Fish - SANDRA","Moonstruck - ROSE","Wild Things - KELLY","Basquiat - GINA","It Happened One Night - ANDREWS","Human Nature - GABRIELLE","Scream 2 - HALLIE","Pet Sematary - RACHEL","I Still Know What You Did Last Summer - JULIE","Do The Right Thing - JADE","Rambling Rose - ROSE","Beloved - BABY SUGGS","Cruel Intentions - CECILE","Solaris - RHEYA","Arctic Blue - ANNE MARIE","Serial Mom - MOM","Supergirl - SUPERGIRL","Crazylove - RUTH","Final Destination - CLEAR","Body of Evidence - REBECCA","Rambling Rose - MOTHER","Bound - VIOLET","Slither - GRANT","Legally Blonde - ELLE","My Best Friend's Wedding - KIMMY","Batman - VICKI","All About Eve - EVE","Casino - GINGER","Notting Hill - ANNA","Insomnia - ELLIE","Thelma & Louise - LOUISE","Monkeybone - JULIE","Pleasantville - BETTY","Meet Joe Black - SUSAN","Sideways - MAYA","American Pie - HEATHER","Cruel Intentions - KATHRYN","Ghost World - REBECCA","Being John Malkovich - LOTTE","Rocky - ADRIAN","Sister Act - MARY PATRICK","Being There - RAND","Hellraiser - KIRSTY","Pleasantville - JENNIFER","Mulholland Drive - BETTY","Platinum Blonde - GALLAGHER","Bean - ALISON","Broadcast News - JANE","Copycat - HELEN","Good Will Hunting - SKYLAR","Hannah and Her Sisters - HOLLY","Sunset Blvd. - NORMA","Kalifornia - CARRIE","Shampoo - JILL","Agnes of God - MARTHA","Slither - STARLA","Stepmom - JACKIE","Hudson Hawk - ANNA","Blast from the Past, The - HELEN","Strange Days - FAITH","Little Nicky - VALERIE","It's a Wonderful Life - MARY","Roughshod - MARY","Scream 3 - GALE","Agnes of God - AGNES","Blue Velvet - SANDY","Sugar and Spice - DIANE","Crying Game - JUDE","Smokin' Aces - WATTERS","Jerry Maguire - DOROTHY","Tombstone - JOSEPHINE","Buffy the Vampire Slayer - NICOLE","Sleepless in Seattle - BECKY","As Good As It Gets - CAROL","Croupier - JANI","Heavenly Creatures - PAULINE","Silence of the Lambs - CLARICE","Never Been Kissed - JOSIE","Indiana Jones and the Last Crusade - ELSA","My Mother Dreams the Satan's Disciples in New York - MARIAN","Drop Dead Gorgeous - LORETTA","Final Destination 2 - KIMBERLY","Love and Basketball - CAMILLE","Blue Velvet - DOROTHY","Sleepless in Seattle - ANNIE","Juno - VANESSA","Titanic - ROSE","Scream 2 - GALE","It Happened One Night - ELLIE","Kramer vs Kramer - JOANNA","Heavenly Creatures - JULIET","Mr Deeds Goes to Town - BABE","Nightmare on Elm Street, A - NANCY","Erik the Viking - AUD","Blast from the Past, The - EVE","Out of Sight - KAREN","U Turn - GRACE","Big Fish - JENNY","Never Been Kissed - ANITA","Cruel Intentions - ANNETTE","Scream - GALE","Supergirl - SELENA","Romeo & Juliet - JULIET","Hannah and Her Sisters - LEE","Man On Fire - LISA","Jacob's Ladder - JEZZIE","Event Horizon - PETERS","Fargo - MARGE","Election - TRACY","Nick of Time - ELEANOR GRANT","Nurse Betty - BETTY","Mystery Men - MONICA","Someone To Watch Over Me - ELLIE","Life As A House - ROBIN","Walk to Remember, A - JAMIE","Snow Falling On Cedars - HATSUE","Drop Dead Gorgeous - AMBER","Bull Durham - ANNIE","Frequency - JULIA","Frances - LILLIAN","Cast Away - KELLY","Rear Window - LISA","Five Easy Pieces - TITA","All About Eve - KAREN","Sister Act - MARY ROBERT","Intolerable Cruelty - MARYLIN","What Lies Beneath - JODY","Juno - LEAH","Grand Hotel - FLAEMMCHEN","Se7en - TRACY","Ninotchka - SWANA","Feast - HEROINE","Smokin' Aces - SYKES","Assassins - ELECTRA","Jurassic Park III - AMANDA","Jennifer Eight - HELENA","Lord of Illusions - DOROTHEA","Lost in Translation - CHARLOTTE","Runaway Bride - MAGGIE","Sling Blade - LINDA","Happy Birthday, Wanda June - PENELOPE","Pretty Woman - KIT","Ninotchka - NINOTCHKA","Traffic - HELENA","Wall Street - DARIEN","There's Something About Mary - MARY","Bachelor Party - DEBBIE","Annie Hall - ANNIE","Basic Instinct - BETH","Klute - BREE","Antz - BALA","Pirates of the Caribbean - ELIZABETH","Amadeus - CONSTANZE","Sex, Lies and Videotape - ANN","Punch Drunk Love - ELIZABETH","Five Easy Pieces - CATHERINE","Reindeer Games - ASHLEY","Kalifornia - ADELE","Beloved - DENVER","I Still Know What You Did Last Summer - KARLA","High Fidelity - LAURA","Hannibal - STARLING","Indiana Jones and the Temple of Doom - WILLIE","Men in Black - LAUREL","Rebel Without A Cause - JUDY","Someone To Watch Over Me - CLAIRE","Eternal Sunshine of the Spotless Mind - MARY","Mulholland Drive - RITA","Top Gun - CHARLIE","Tremors - RHONDA","G.I. Jane - JORDAN","Erin Brockovich - ERIN","Sex, Lies and Videotape - CYNTHIA","Unbreakable - MEGAN","Blood Simple - ABBY","Gods and Monsters - HANNA","Sphere - BETH","Sister Act - MOTHER SUPERIOR","Black Snake Moan - RAE","Mission Impossible II - NYAH","Frankenstein - ELIZABETH","Clerks - CAITLIN","Marty - CLARA","What Lies Beneath - CLAIRE","American Psycho - JEAN","Birthday Girl - NADIA","Austin Powers   International Man of Mystery - VANESSA","Terminator - SARAH","Five Easy Pieces - RAYETTE","Wonder Boys - SARA","Lone Star - PILAR","King Kong - ANN","My Girl - SHELLY","Braveheart - PRINCESS","Pretty Woman - VIVIAN","All About Eve - MARGO","Even Cowgirls Get the Blues - SISSY","Ed TV - SHARI","Crouching Tiger, Hidden Dragon - YU","Leviathan - WILLIE","Misery - ANNIE","Godfather - KAY","Lake Placid - KELLY","Gladiator - LUCILLA","Jurassic Park - ELLIE","Independence Day - CONSTANCE","Juno - JUNO","Blade - KAREN","Wild Things - GLORIA","Being There - EVE","Hackers - KATE","Heathers - VERONICA","Hellraiser - JULIA","Leaving Las Vegas - SERA","Taxi Driver - BETSY","Aliens - RIPLEY","Shampoo - JACKIE","Basic Instinct - CATHERINE","Gone in 60 Seconds - SWAY","My Best Friend's Wedding - JULIANNE","Being John Malkovich - MAXINE","Fantastic Four - SUE","Scream - SIDNEY","Ronin - DEIRDRE","True Lies - HELEN","Nashville - LINNEA","Wild At Heart - LULA","Blade Runner - RACHAEL","Thelma & Louise - THELMA","JFK - LIZ","Frances - FRANCES","Shallow Grave - JULIET","Mrs. Brown - VICTORIA","Ghost World - ENID","Peggy Sue Got Married - PEGGY","Airplane - ELAINE","Gattaca - IRENE","Supergirl - LUCY","Memento - NATALIE","Independence Day - JASMINE","Strange Days - MACE","Magnolia - CLAUDIA","Shampoo - FELICIA","L.A. Confidential - LYNN","Kafka - GABRIELA","Body of Evidence - JOANNE","Brazil - JILL","Mumford - SOFIE","Last of the Mohicans, The - CORA","48 Hrs. - ELAINE","From Dusk Till Dawn - KATE","Bones - PEARL","Anastasia - ANYA","Runaway Bride - PEGGY","House of 1000 Corpses - BABY","Starship Troopers - CARMEN","Heavenly Creatures - HONORA","Grosse Point Blank - DEBI","Moonstruck - LORETTA","Mimic - SUSAN","Hannah and Her Sisters - HANNAH","Sweet Smell of Success - SUSAN","Cherry Falls - SANDY","Pearl Harbor - EVELYN","To Sleep with Anger - SUZIE","RKO 281 - MARION","Manhunter - MOLLY","Meet John Doe - ANN","Ed TV - CYNTHIA","My Girl - VADA","Starship Troopers - DIZZY","His Girl Friday - HILDY","Love and Basketball - MONICA","American Werewolf in London - ALEX","Citizen Kane - KANE","G.I. Jane - DEHAVEN","Face Off - EVE","Antitrust - ALICE","Final Destination 2 - CLEAR","Taxi Driver - IRIS","Fast Times at Ridgemont High - STACY","Collateral - ANNIE","Event Horizon - STARCK","Watchmen - LAURIE","Basic - OSBORNE","Citizen Kane - SUSAN","Cherry Falls - JODY","Pet Sematary - ELLIE","Deep Rising - TRILLIAN","Jurassic Park - LEX","Ed Wood - DOLORES","Metro - RONNIE","Punch Drunk Love - LENA","Hotel Rwanda - TATIANA","Bound - CORKY","Nurse Betty - ROSA","Spare Me - SHEILA","Crime Spree - SOPHIE","10 Things I Hate About You - BIANCA","Buffy the Vampire Slayer - KIMBERLY","15 Minutes - NICOLETTE","Entrapment - GIN","Walk to Remember, A - CYNTHIA","Raging Bull - VICKIE","Black Rain - JOYCE","Scream 2 - SIDNEY","Jaws 2 - ELLEN","Witness - RACHEL","Nightmare on Elm Street, A - MARGE","Malcolm X - BETTY","Lost Highway - ALICE","True Romance - ALABAMA","Sleepy Hollow - KATRINA","House of 1000 Corpses - MARY","Friday the 13th - ALICE","Chinatown - EVELYN","Arcade - ALEX","Wild Things - SUZIE","Ed TV - JEANETTE","Total Recall - MELINA","Life As A House - ALYSSA","Logan's Run - JESSICA","Psycho - LILA","Buffy the Vampire Slayer - BUFFY","Starman - JENNY","Backdraft - JENNIFER","Sunset Blvd. - BETTY","House of 1000 Corpses - DENISE","Kids - JENNIE","Grand Hotel - GRUSINSKAYA","Labor of Love - ADELLE","Mission Impossible - CLAIRE","Confidence - LILY","Scream 3 - SIDNEY","Jackie Brown - JACKIE","Rear Window - STELLA","Blade II - NYSSA","Affliction - MARGIE","Antitrust - LISA","Jackie Brown - MELANIE","Fast Times at Ridgemont High - LINDA","Get Shorty - KAREN","Scream - CASEY","Agnes of God - MOTHER MIRIAM","Fight Club - MARLA","Bamboozled - SLOAN","No Country for Old Men - CARLA JEAN","Wild At Heart - MARIETTA","Affliction - JILL","10 Things I Hate About You - KAT","Pitch Black - FRY","Godzilla - AUDREY","Panic Room - SARAH","Virtuosity - MADISON","Ghost Ship - EPPS","Eternal Sunshine of the Spotless Mind - CLEMENTINE","Panic Room - MEG","Sugar and Spice - KANSAS","Badlands - HOLLY","Roughshod - HELEN","Wag the Dog - AMES","Kids - RUBY","Bringing Out the Dead - MARY","Miami Vice - ISABELLA","Scream - TATUM","Human Nature - LILA","Clerks - VERONICA"];
+		
+		//var colors = ['#0000b4','#0082ca','#0094ff','#0d4bcf','#0066AE','#074285','#00187B','#285964','#405F83','#416545','#4D7069','#6E9985','#7EBC89','#0283AF','#79BCBF','#99C19E'];
+		var color_hex = 'darkorange'
+
+		var colors = []
+		var i;
+		for (i=0; i<categories.length; i++) {
+			colors.push(color_hex);
+		}
+
+		var y_size = categories.length*25
+
+		var grid = d3.range(21).map(function(i){
+			return {'x1':0,'y1':0,'x2':0,'y2':y_size};
+		});
+
+		var tickVals = grid.map(function(d,i){
+			if(i>0){ return i/10; }
+			else if(i===0){ return "1";}
+		});
+
+		var xscale = d3.scale.linear()
+						.domain([0,1])
+						.range([0,700]);
+
+		var yscale = d3.scale.linear()
+						.domain([0,categories.length])
+						.range([0,y_size]);
+
+		var colorScale = d3.scale.quantize()
+						.domain([0,categories.length])
+						.range(colors);
+
+		var canvas = d3.select('#wrapper')
+						.append('svg')
+						.attr({'width':900,'height':y_size+100});
+
+		var grids = canvas.append('g')
+						  .attr('id','grid')
+						  .attr('transform','translate(200,10)')
+						  .selectAll('line')
+						  .data(grid)
+						  .enter()
+						  .append('line')
+						  .attr({'x1':function(d,i){ return i*35; },
+								 'y1':function(d){ return d.y1; },
+								 'x2':function(d,i){ return i*35; },
+								 'y2':function(d){ return d.y2; },
+							})
+						  .style({'stroke':'#adadad','stroke-width':'1px'});
+
+		var	xAxis = d3.svg.axis();
+			xAxis
+				.orient('bottom')
+				.scale(xscale)
+				.tickValues(tickVals);
+
+		var	yAxis = d3.svg.axis();
+			yAxis
+				.orient('left')
+				.scale(yscale)
+				.tickSize(2)
+				.tickFormat(function(d,i){ return categories[i]; })
+				.tickValues(d3.range(categories.length));
+
+		var y_xis = canvas.append('g')
+						  .attr("transform", "translate(200,2)")
+						  .attr('id','yaxis')
+						  .call(yAxis);
+
+		var x_xis = canvas.append('g')
+						  .attr("transform", "translate(200,"+y_size+")")
+						  .attr('id','xaxis')
+						  .call(xAxis);
+
+		var chart = canvas.append('g')
+							.attr("transform", "translate(200,0)")
+							.attr('id','bars')
+							.selectAll('rect')
+							.data(scores)
+							.enter()
+							.append('rect')
+							.attr('height',18)
+							.attr({'x':0,'y':function(d,i){ return yscale(i)+18; }})
+							.style('fill',function(d,i){ return colorScale(i); })
+							.attr('width',function(d){ return 0; });
+
+
+		var transit = d3.select("svg").selectAll("rect")
+						    .data(scores)
+						    .transition()
+						    .duration(1000) 
+						    .attr("width", function(d) {return xscale(d); });
+
+		var transitext = d3.select('#bars')
+							.selectAll('text')
+							.data(scores)
+							.enter()
+							.append('text')
+							.attr({'x':function(d) {
+										if (d>0.05) {return xscale(d)-35;}
+										else {return xscale(d)+5;} },
+									'y':function(d,i){return yscale(i)+30;}})
+							.text(function(d){return d.toFixed(3);}).style({'fill':'#fff','font-size':'12px','font-family':'Helvetica'});
+
+		var div = d3.select("body").append("div").attr("class", "toolTip");
+		
+	    chart.on("mousemove", function(d, i){
+	                div.style("left", d3.event.pageX+10+"px");
+	                div.style("top", d3.event.pageY-25+"px");
+	                div.style("display", "inline-block");
+	                div.html(categories[i+1]+'<br>'+d);
+	            });
+
+	    chart.on("mouseout", function(d){
+	                div.style("display", "none");
+	            });
+
+	</script>
+</body>
+</html>
