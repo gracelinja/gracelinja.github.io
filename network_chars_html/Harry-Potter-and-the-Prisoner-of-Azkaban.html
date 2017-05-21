@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<body>
+
+<h1 align="center">Harry Potter and the Prisoner of Azkaban</h1>
+
+<!--
+	Character Network
+-->
+
+<h2 align="center">Character Network</h2>
+<center>
+Inspired by <a href="https://www.macalester.edu/~abeverid/thrones.html">Network of Thrones</a>
+</center>
+<br><br>
+
+The character network includes interacting characters in at least 5 scenes.<br>
+<ul>
+<li>The <b>thickness</b> of links indicates the <>number of scenes</b> between the linked nodes/characters. Thicker line means more scenes.</li>
+<li>The <b>color</b> of nodes indicates natural division of <b>communities</b>:</li>
+	<ul>
+	<li>Community 1: DRACO, RON, PROFESSOR LUPIN, HARRY, HERMIONE, DUMBLEDORE</li>
+<li>Community 2: SEAMUS, NEVILLE</li>
+
+	</ul>
+</ul>
+
+Additional Statistics:
+<ul><li><b>Connected Components</b> : <font color="blue">[8]</font></li>
+<li><b>Transitivity Ratio</b> : <font color="blue"> 0.538</font> (0 = one character connected to others; 1 = all characters connected to each other)</li>
+<li><b>Local Clustering Coefficient</b> : <font color="blue"> 0.633</font></li>
+<li><b>Density</b> : <font color="blue"> 0.464</font> (0 = no links; 1 = all possible links)</li>
+</ul>
+
+
+<center>
+<img src="network_chars_plots/Harry-Potter-and-the-Prisoner-of-Azkaban_nx.png" width="100%"></img>
+</center>
+
+<!--
+	Character Network
+-->
+
+<h2>Character Importance</h2>
+We use different centrality measures to address characters' influence. Higher value means higher influence.<br>
+<br>
+
+<img src="network_chars_importance_plots/Harry-Potter-and-the-Prisoner-of-Azkaban.png" width="100%"></img>
+
+An explanation for the measures:
+	<ul>
+	<li><b>Degree Centrality:</b> the fraction of characters you interact with.</li>
+	<li><b>Weighted Degree:</b> the number of interactions you participate in.</li>
+	<li><b>Eigenvector Centrality:</b> weighted degree centrality with a feedback boost for interacting with other important characters. You get full credit for the importance of your neighbors.</li>
+	<li><b>PageRank Centrality:</b> weighted degree centrality with a feedback boost for interacting with other important characters. The importance of your neighbors is split among its neighbors.</li>
+	<li><b>Closeness Centrality:</b> how close you are to all other characters; it is the average shortest distance to all other characters (measured by number of links you traverse).</li>
+	<li><b>Betweenness Centrality:</b> how often you lie on shortest paths between two other characters, making you a broker of information.</li>
+</ul>
+
+<!--
+It seems that the standout character is <b>Elizabeth</b>,
+who interacts the most with:
+<ul>
+	 <li>MRS BENNET 23</li>
+	 <li>MR BENNET 19</li>
+	 <li>JANE 19</li>
+	 <li>DARCY 19</li>
+	 <li>KITTY 16</li>
+</ul>
+-->
+
+It seems that the stadout character is <b>HERMIONE</b>, who has the most scenes with:
+<ul>
+<li>HARRY 32</li>
+<li>RON 26</li>
+<li>DRACO 6</li>
+<li>NEVILLE 6</li>
+<li>DUMBLEDORE 5</li>
+</ul>
+
+
+
+</body>
+</html>
